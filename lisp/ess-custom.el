@@ -2501,6 +2501,30 @@ Used to store the values for passing on to newly created buffers.")
 (defvar ess-STERM nil
   "Placeholder for dialect-specific STERM.")
 
+(defcustom ess-enable-poly-mode-integration t
+  "When non-nil, enable integration with poly-mode."
+  :type 'boolean
+  :group 'ess
+  :set (lambda (symbol value)
+         (set-default symbol value)
+         (when value
+           (unless (and
+                     ;; check if poly-R is installed
+                     (fboundp 'poly-markdown+r-mode)
+                     ;; check if poly-noweb is installed
+                     (fboundp 'poly-noweb-mode))
+             (when (y-or-n-p "poly-mode packages are not installed. Install them now? ")
+               (let ((packages '(polymode poly-noweb poly-markdown poly-R))
+                     (archives (mapconcat #'cdr package-archives)))
+                 ;; check if melpa is included in package-archives
+                 (when (not (string-match "melpa" archives))
+                   (add-to-list 'package-archives
+                     '("melpa-stable" . "https://stable.melpa.org/packages/"))
+                   (package-refresh-contents))
+                 (dolist (package packages)
+                   (unless (package-installed-p package)
+                     (package-install package)))))))))
+
 (make-obsolete-variable 'ess-S-loop-timeout "It is ignored." "ESS 18.10")
 (make-obsolete-variable 'ess-mode-load-hook "It is ignored." "ESS 18.10")
 (make-obsolete-variable 'ess-speedbar-use-p "It is ignored." "ESS 18.10")

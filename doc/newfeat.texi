@@ -4,7 +4,7 @@
 Changes and New Features in pre-release (target=24.12.0) version:
 @itemize @bullet
 
-@item polymode: In our transition from literate libraries 
+@item polymode: In our transition from literate libraries
 (such as noweb documented below with respect to 19.04), we are now
 requiring the polymode packages as a more suitable replacement.
 Furthermore, we require the related polymodes including packages for
@@ -14,6 +14,9 @@ you need to add MELPA to the list of installation archives as follows.
 @samp{(add-to-list 'package-archives '("melpa-stable" .
 https://stable.melpa.org/packages/))} This will allow @kbd{M-x
 package-install} to proceed naturally.
+
+If you do not want to install polymode packages, set
+@code{ess-enable-polymode-integration} to @code{nil}.
 
 @item ESS[R]: The shorthand notation for lambda functions
 and the question mark are now fontified as keywords.
